@@ -12,9 +12,14 @@
     $cek_bycrypt = password_verify($hash_md5,$password_db);
     if ($cek_bycrypt) {
       session_start();
-      $_SESSION['id'] = $akun['id'];
+      $_SESSION['id_akun'] = $akun['id_akun'];
+      $id = $_SESSION['id_akun'];
       $_SESSION['username'] = $akun['username'];
-      header('location:index.php');
+      $queryselect = "SELECT username FROM akun WHERE id_akun = $id";
+      $result = mysqli_query($koneksi,$queryselect);
+      $data = mysqli_fetch_assoc($result);
+      echo $data['username'];
+      header('location:../index.php');
     } else {
       echo "password anda salah<br>";
       echo '<a href="Form_Akun.php">Kembali</a>';
